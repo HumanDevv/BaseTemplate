@@ -13,8 +13,22 @@ object ValidationUtils {
     }
 
     // Check if input is a valid phone number (basic validation)
-    fun isValidPhoneNumber(number: String?): Boolean {
-        return !number.isNullOrBlank() && number.length in 7..15 && number.all { it.isDigit() }
+    fun isValidPhoneNumber(number: String?): String? {
+        return when {
+            number.isNullOrBlank() -> "Mobile number is required"
+            number.length != 10 -> "Mobile number must be exactly 10 digits"
+            !number.all { it.isDigit() } -> "Mobile number must contain only digits"
+            else -> null
+        }
+    }
+    // Check if input is a valid phone number (basic validation)
+    fun isValidOtp(otp: String?): String? {
+        return when {
+            otp.isNullOrBlank() -> "Otp is required"
+            otp.length != 4 -> "Otp must be exactly 4 digits"
+            !otp.all { it.isDigit() } -> "Otp must contain only digits"
+            else -> null
+        }
     }
 
     // Check if input is a valid password (min 6 chars, one digit, one letter)

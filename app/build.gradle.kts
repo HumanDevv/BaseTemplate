@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.base.template"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.base.template"
@@ -30,11 +30,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.13"
+    }
+    buildFeatures {
+        compose = true
     }
 }
 
@@ -45,6 +51,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.ui.tooling.preview.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -58,4 +65,14 @@ dependencies {
     implementation(libs.retrofit.converter)
     implementation(libs.okhttp.okhttp)
     implementation(libs.okhttp.logging)
+
+
+    implementation (libs.androidx.ui)
+    implementation (libs.androidx.material3)
+    implementation (libs.androidx.navigation.compose)
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
+    implementation (libs.androidx.activity.compose)
+
+
+
 }

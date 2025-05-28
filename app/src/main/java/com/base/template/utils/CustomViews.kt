@@ -20,44 +20,29 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.base.template.presenation.theme.CustomBlue
+import com.base.template.presenation.theme.Orange
 
 @Composable
 fun CustomStyledButton(
     text: String,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    val gradient = Brush.horizontalGradient(
-        colors = listOf(
-            Color(0xFF00CCFF),
-            Color(0xFF0075BE).copy(alpha = 0.9f),
-            Color(0xFF0075BE).copy(alpha = 0.9f),
-            Color(0xFF00CCFF)
-        )
-    )
+
 
     Button(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent,  // make button background transparent
-            contentColor = Color.White
-        ),
-        contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp), // remove default padding
-        shape = RoundedCornerShape(15.dp),
-
-        modifier = Modifier
-            .padding(8.dp)
-            .height(50.dp)
+        modifier = modifier
+            .padding(horizontal = 24.dp, vertical = 12.dp)
             .fillMaxWidth()
+            .height(48.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = Orange),
+        contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp), // remove default padding
+        shape = RoundedCornerShape(20.dp),
+
     ) {
-        // Use Box with gradient background inside Button
-        Box(
-            modifier = Modifier
-                .background(brush = gradient, shape = RoundedCornerShape(15.dp))
-                .fillMaxWidth()
-                .height(50.dp),
-            contentAlignment = Alignment.Center
-        ) {
+
             Text(text = text, style = TextStyle(fontSize = 18.sp))
-        }
+
     }
 }

@@ -1,14 +1,18 @@
 package com.base.template.presenation.feature.auth.login
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
@@ -21,15 +25,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.base.template.R
+import com.base.template.presenation.theme.Yellow
 import com.base.template.utils.CustomStyledButton
 import com.base.template.utils.ValidationUtils
 
@@ -41,19 +53,10 @@ fun AuthScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
+            .background(Yellow),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Logo or center image
-        Image(
-            painter = painterResource(id = R.drawable.login), // Replace with your image
-            contentDescription = "Logo",
-            modifier = Modifier
-                .size(120.dp)
-                .padding(bottom = 32.dp)
-        )
-
+        TopLayout()
         // Mobile No.
         OutlinedTextField(
             value = mobile,
@@ -112,6 +115,39 @@ fun AuthScreen(navController: NavController) {
 
     }
 }
+
+@Composable
+fun TopLayout() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(15.dp)
+    ) {
+        // Back icon aligned to the start (left)
+        Image(
+            painter = painterResource(R.drawable.back_icon_arrow),
+            contentDescription = "back",
+            modifier = Modifier
+                .size(20.dp)
+                .align(Alignment.CenterStart)
+        )
+
+        // Title text aligned to the center
+        Text(
+            text = "Screen Title",
+            style = TextStyle(
+                color = Color.White,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+            ),
+            modifier = Modifier.align(Alignment.Center)
+        )
+    }
+}
+
+
+
 
 @Preview(showBackground = true)
 @Composable

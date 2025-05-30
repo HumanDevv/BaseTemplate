@@ -12,7 +12,7 @@ import com.base.template.presenation.feature.introduction.SplashScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "splash") {
+    NavHost(navController = navController, startDestination = "auth") {
         composable("splash") { SplashScreen(navController) }
         composable("intro") { IntroScreen(navController) }
 

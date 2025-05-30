@@ -3,6 +3,7 @@ package com.base.template.presenation.feature.introduction
 import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,7 +52,7 @@ fun IntroScreen(navController: NavHostController) {
             title = "Track Your Expenses",
             description = "Easily manage and track your spending anytime, anywhere.",
             bgImage = R.drawable.onboard_two,
-            icon = R.drawable.card_icon
+            icon = R.drawable.transfer_document_icon
         ),
         OnboardPage(
             title = "Set Your Budget",
@@ -62,8 +63,8 @@ fun IntroScreen(navController: NavHostController) {
         OnboardPage(
             title = "Achieve Your Goals",
             description = "Save more and reach your financial goals faster than ever.",
-            bgImage = R.drawable.onboard_two,
-            icon = R.drawable.card_icon
+            bgImage = R.drawable.onboard_three,
+            icon = R.drawable.deliver_boy_icon
         )
     )
 
@@ -92,7 +93,9 @@ fun IntroScreen(navController: NavHostController) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp),
+                    .padding(10.dp).clickable {
+                        navController.navigate("auth")
+                    },
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
@@ -167,7 +170,7 @@ fun IntroScreen(navController: NavHostController) {
                     text = if (currentPage == onboardPages.lastIndex) "Finish" else "Next"
                 ) {
                     if (currentPage == onboardPages.lastIndex) {
-                        navController.navigate("home")
+                        navController.navigate("auth")
                     } else {
                         coroutineScope.launch {
                             pagerState.animateScrollToPage(currentPage + 1)

@@ -15,6 +15,7 @@ import com.base.template.presenation.navigation.AppNavGraph
 import com.base.template.presenation.theme.MyAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

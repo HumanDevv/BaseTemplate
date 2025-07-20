@@ -1,9 +1,8 @@
 package com.base.template.presenation.feature.auth.otp
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,9 +19,9 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,43 +33,37 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.base.template.R
+import com.base.template.presenation.feature.auth.UserViewModel
+import com.base.template.presenation.theme.Yellow
 import com.base.template.utils.CustomStyledButton
+import com.base.template.utils.TopLayout
 import com.base.template.utils.ValidationUtils
+import dagger.hilt.android.AndroidEntryPoint
 
 @Composable
 fun OtpScreen(navController: NavController) {
-
+    val viewModel: UserViewModel = hiltViewModel()
     var otp by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
+    val name by viewModel.userName.collectAsState()
+    val loggedIn by viewModel.isLoggedIn.collectAsState()
 
-    Column {
+    Column(modifier = Modifier.background(color = Yellow)) {
+        TopLayout(navController)
 
-        Box (modifier = Modifier.padding(10.dp),
-            ){
-            Image(
-                painter = painterResource(id = R.drawable.ic_back),
-                contentDescription = "back",
-                modifier = Modifier
-                    .size(50.dp)
-                    .clickable {
-                        navController.popBackStack()
-                    }
-
-            )
-        }
-
+        Spacer(modifier = Modifier.height(50.dp))
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp),
+                .background(color = Color.White, RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp)),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -96,6 +89,7 @@ fun OtpScreen(navController: NavController) {
                         errorMessage = error
                     } else {
                         errorMessage = ""
+                        viewModel.saveUser("ComposeUser")
                         navController.navigate("home")
                     }
                 },
@@ -130,6 +124,7 @@ fun OtpTextField(
                 isFocused = true
             }
     ) {
+
         // Invisible input field
         BasicTextField(
             value = otpText,
@@ -149,7 +144,6 @@ fun OtpTextField(
                 .height(1.dp),
             singleLine = true
         )
-
         // Visible OTP boxes
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             repeat(4) { index ->

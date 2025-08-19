@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,9 +14,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 
 import androidx.compose.material3.HorizontalDivider
@@ -33,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -42,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.base.template.R
+import com.base.template.data.remote.model.foodItem.FoodItem
 import com.base.template.presenation.theme.Orange
 import com.base.template.presenation.theme.Yellow
 
@@ -51,6 +60,8 @@ fun HomeScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(Yellow)
+            .verticalScroll(rememberScrollState()) // 👈 makes layout scrollable
+
     ) {
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -84,7 +95,6 @@ fun HomeScreen(navController: NavController) {
 
 @Composable
 fun TopLayout() {
-    var searchText by remember { mutableStateOf("") }
 
     Row(
         modifier = Modifier
@@ -101,11 +111,8 @@ fun TopLayout() {
                 .background(Color.White, RoundedCornerShape(25.dp))
                 .padding(horizontal = 10.dp)
         ) {
-            TextField(
-                value = searchText,
-                onValueChange = { searchText = it },
-                placeholder = { Text("Search") },
-                singleLine = true,
+            Text(
+               "Search",
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.CenterStart)
@@ -166,7 +173,8 @@ fun MainLayout() {
             .fillMaxSize()
             .clip(RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp))
             .background(Color.White)
-            .padding(16.dp)
+
+            .padding(vertical =15.dp,horizontal = 15.dp)
     ) {
         LazyRow(
             modifier = Modifier.fillMaxWidth()
@@ -199,9 +207,10 @@ fun MainLayout() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f),
+                ,
             horizontalArrangement = Arrangement.SpaceEvenly,
-        ) {
+        )
+        {
             Text(
                 text = "Best Seller",
                 modifier = Modifier.weight(0.5f),
@@ -234,6 +243,59 @@ fun MainLayout() {
             }
         }
 
+        val foodItems = listOf(
+            FoodItem("Sushi", "https://picsum.photos/200/300?1", "$103.0"),
+            FoodItem("Curry Rice", "https://picsum.photos/200/300?2", "$50.0"),
+            FoodItem("Lasagna", "https://picsum.photos/200/300?3", "$12.99"),
+            FoodItem("Cupcake", "https://picsum.photos/200/300?4", "$8.20"),
+            FoodItem("Cupcake", "https://picsum.photos/200/300?4", "$8.20"),
+            FoodItem("Cupcake", "https://picsum.photos/200/300?4", "$8.20"),
+        )
+        LazyRow(
+            contentPadding = PaddingValues( vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(foodItems) { item ->
+                FoodCard(item)
+            }
+        }
+        Spacer(modifier = Modifier.size(15.dp))
+        OfferPager()
+      
     }
+
+}
+
+@Composable
+fun OfferPager(){
+    val pagerState = rememberPagerState (pageCount = {10})
+    HorizontalPager(state = pagerState) {page->
+        Image(
+            painter = painterResource(R.drawable.offer_img),
+            contentDescription = "profile",
+            modifier = Modifier.fillMaxWidth()
+                .height(150.dp)
+        )
+    }
+    Row(
+        Modifier
+            .wrapContentHeight()
+            .fillMaxWidth()
+            .padding(bottom = 8.dp),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        repeat(pagerState.pageCount) { iteration ->
+            val color = if (pagerState.currentPage == iteration) Orange else Color.Yellow
+            Box(
+                modifier = Modifier
+                    .padding(top = 10.dp)
+                    .padding(2.dp)
+                    .clip(RoundedCornerShape(5.dp))
+                    .background(color)
+                    .size(width = 20.dp, height = 5.dp)
+            )
+        }
+    }
+
 }
 

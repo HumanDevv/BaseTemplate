@@ -76,6 +76,7 @@ dependencies {
 
     implementation (libs.androidx.datastore.preferences)
     implementation (libs.androidx.lifecycle.runtime.ktx)
-
+    //for image loading
+    implementation(libs.coil.compose)
 
 }
